@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:tasklist/database/listoftasks.dart';
 import 'package:tasklist/screens/taskcard.dart';
 import 'package:tasklist/taskdetails/taskdetails.dart';
+
 class Task extends StatefulWidget {
   @override
   _TaskState createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-  List<Taske> tasks=[
-    Taske("Task1","Many work to be done "),
-    Taske("Task2","Yes your work has to be done \n Lets do some more work \n What you can do ?"),
-    Taske("Task3","Oh Yes I did it "),
-    Taske("Task4","Yet another work to be done"),
-  ];
+
   @override
   Widget build(BuildContext context) {
     final heading = TextEditingController();
@@ -23,9 +20,23 @@ class _TaskState extends State<Task> {
           title: Text('TODO LIST'),
         backgroundColor: Colors.red,
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        children: tasks.map((t) => TaskCard(head: t.head,details: t.details)).toList(),
+      body: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2),
+        itemCount: tasks.tasks.length,
+        itemBuilder :((context, int index){
+
+            Taske t= tasks.tasks.elementAt(index);
+
+            TaskCard tx= TaskCard(
+               oncall: ()=> setState((){}),
+                head: t.head,
+                details: t.details,
+                id: index,
+                context: context
+            );
+            return tx;
+          })
       ),
        floatingActionButton: FloatingActionButton(
          tooltip: 'Add a New Task',
@@ -69,7 +80,7 @@ class _TaskState extends State<Task> {
                                  MaterialButton(
                                    onPressed: () {
                                      Taske t= Taske(heading.text,textall.text);
-                                       tasks.add(t);
+                                       tasks.tasks.add(t);
                                      Navigator.pop(context);
                                      setState(() {});
 

@@ -1,53 +1,76 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:tasklist/database/listoftasks.dart';
 
-class TaskCard extends StatelessWidget {
-  String head;
-  String details;
-  TaskCard({this.head,this.details});
+// ignore: must_be_immutable
+class TaskCard extends StatefulWidget {
+  final int id;
+  final String head;
+  final String details;
+  BuildContext context;
+  final VoidCallback oncall;
+  TaskCard({this.head,this.details,this.id,this.context,this.oncall});
+
+  @override
+  _TaskCardState createState() => _TaskCardState();
+}
+
+class _TaskCardState extends State<TaskCard> {
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      splashColor: Colors.blue,
-      onTap: (){
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return Dialog(
-                backgroundColor: Colors.lightGreen[100],
-                shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.circular(20.0)), //this right here
-                child: ListView(
-                  shrinkWrap: true,
-                  children : [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                        Text(
-                          this.head,
-                          style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.red),
+    return Dismissible(
+      key: UniqueKey() ,
+      direction: (widget.id%2==1)?DismissDirection.startToEnd:DismissDirection.endToStart,
+      child: InkWell(
+        splashColor: Colors.blue,
+        onTap: (){
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  backgroundColor: Colors.lightGreen[100],
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(20.0)), //this right here
+                  child: ListView(
+                    shrinkWrap: true,
+                    children : [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                          Text(
+                            this.widget.head,
+                            style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.red),
+                          ),
+
+                        ],
                         ),
 
-                      ],
-                      ),
+                        SizedBox(height: 5,width: 5),
+                        Text(
+                          this.widget.details,
+                          style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.red,backgroundColor: Colors.lightGreen[100]),
+                        ),
+                    ],
+                  ),
+                );
+              });
 
-                      SizedBox(height: 5,width: 5),
-                      Text(
-                        this.details,
-                        style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.red,backgroundColor: Colors.lightGreen[100]),
-                      ),
-                  ],
-                ),
-              );
-            });
+        },
+        child: Card(
+          color: Colors.green[100],
+          margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
+          child: Center(child: Text(widget.head,style: TextStyle(fontSize: 20),)),
 
-      },
-      child: Card(
-        color: Colors.green[100],
-        margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
-        child: Text(head,style: TextStyle(fontSize: 20),),
-
+        ),
       ),
+      onDismissed: (direction) async {
+        tasks.delete(widget.id);
+        widget.oncall();
+        Scaffold.of(context)
+            .showSnackBar(SnackBar(content: Text("item dismissed")));
+      },
     );
   }
 }
