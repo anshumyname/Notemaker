@@ -1,6 +1,7 @@
 import 'package:tasklist/taskdetails/taskdetails.dart';
 
 class Tlist {
+  String info="Not assigned";
   List<Taske> tasks = [
     Taske("Task1", "Many work to be done "),
     Taske("Task2",
@@ -14,6 +15,18 @@ class Tlist {
   }
 }
 
-Tlist tasks= Tlist();
+Tlist tasks1= Tlist();
+Tlist tasks2= Tlist();
+Tlist tasks3= Tlist();
+List<Tlist> tasklist= [tasks1, tasks2 ,tasks3];
 
-  List<int> numbers=[2,1,4,3,7,8,1,8,2,22];
+class Catlist {
+  List<String> cats=[
+    'Category1',
+    'Category2',
+    'Category3',
+  ];
+
+}
+
+Catlist ct= Catlist();

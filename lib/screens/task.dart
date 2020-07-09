@@ -4,6 +4,8 @@ import 'package:tasklist/screens/taskcard.dart';
 import 'package:tasklist/taskdetails/taskdetails.dart';
 
 class Task extends StatefulWidget {
+  int tid;
+  Task({this.tid});
   @override
   _TaskState createState() => _TaskState();
 }
@@ -15,29 +17,32 @@ class _TaskState extends State<Task> {
     final heading = TextEditingController();
     final textall=  TextEditingController();
 
+
     return Scaffold(
       appBar: AppBar(
-          title: Text('TODO LIST'),
-        backgroundColor: Colors.red,
+          title: Text('Todo List',textAlign: TextAlign.center,),
+        backgroundColor: Colors.black,
       ),
       body: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2),
-        itemCount: tasks.tasks.length,
+        itemCount: tasklist[widget.tid].tasks.length,
         itemBuilder :((context, int index){
 
-            Taske t= tasks.tasks.elementAt(index);
+            Taske t= tasklist[widget.tid].tasks.elementAt(index);
 
             TaskCard tx= TaskCard(
                oncall: ()=> setState((){}),
                 head: t.head,
                 details: t.details,
                 id: index,
+                tid: widget.tid,
                 context: context
             );
             return tx;
           })
       ),
+       backgroundColor: Colors.grey,
        floatingActionButton: FloatingActionButton(
          tooltip: 'Add a New Task',
          onPressed: (){
@@ -46,6 +51,7 @@ class _TaskState extends State<Task> {
                context: context,
                builder: (BuildContext context) {
                  return Dialog(
+                   backgroundColor: Colors.blueGrey,
                    shape: RoundedRectangleBorder(
                        borderRadius:
                        BorderRadius.circular(20.0)), //this right here
@@ -60,15 +66,24 @@ class _TaskState extends State<Task> {
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
                              TextField(
+                               cursorColor: Colors.yellow,
                                controller: heading,
+                               style: TextStyle(
+                                 color: Colors.white
+                               ),
                                decoration: InputDecoration(
+                                   fillColor: Colors.red,
                                    border: InputBorder.none,
-                                   hintText: 'Name '),
+                                   hintText: 'Task Name '),
                              ),
                             ]),
                          SizedBox(height: 5,width: 5,),
                          TextField(
-
+                           cursorColor: Colors.yellow,
+                           style: TextStyle(
+                               color: Colors.white
+                           ),
+                           maxLines: null,
                            controller: textall,
                            decoration: InputDecoration(
                                border: InputBorder.none,
@@ -80,7 +95,7 @@ class _TaskState extends State<Task> {
                                  MaterialButton(
                                    onPressed: () {
                                      Taske t= Taske(heading.text,textall.text);
-                                       tasks.tasks.add(t);
+                                     tasklist[widget.tid].tasks.add(t);
                                      Navigator.pop(context);
                                      setState(() {});
 
@@ -103,7 +118,7 @@ class _TaskState extends State<Task> {
                    );
                });
          },
-         backgroundColor: Colors.red,
+         backgroundColor: Colors.black,
         child: Icon(Icons.add),
        ),
     );
