@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -7,13 +8,15 @@ import 'package:notemaker/taskdetails/taskdetails.dart';
 // ignore: must_be_immutable
 class TaskCard extends StatefulWidget {
   final int id;
-  final int tid;
+  final int len;
   final String head;
   final String details;
+  final String did;
+  final String tid;
   BuildContext context;
   final VoidCallback oncall;
 
-  TaskCard({this.head,this.details,this.id,this.context,this.oncall,this.tid});
+  TaskCard({this.head,this.details,this.id,this.context,this.oncall,this.len,this.did,this.tid});
 
   @override
   _TaskCardState createState() => _TaskCardState();
@@ -26,7 +29,8 @@ class _TaskCardState extends State<TaskCard> {
 
   @override
   Widget build(BuildContext context) {
-    var len= tasklist[widget.tid].tasks.length;
+    var len= widget.len;
+
     if(widget.id==len){
       return  Padding(
         padding: const EdgeInsets.all(20.0),
@@ -49,7 +53,7 @@ class _TaskCardState extends State<TaskCard> {
                               borderRadius:
                               BorderRadius.circular(20.0)), //this right here
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: ListView(
                               shrinkWrap: true,
                               children: [
@@ -84,22 +88,25 @@ class _TaskCardState extends State<TaskCard> {
                                       border: InputBorder.none,
                                       hintText: 'Add Something About Your Task'),
                                 ),
+                                SizedBox(height: 20,width: 10),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: <Widget>[
                                     MaterialButton(
                                       onPressed: () {
-                                        Taske t= Taske(heading.text,textall.text);
-                                        tasklist[widget.tid].addit(t);
-                                        Navigator.pop(context);
-                                        widget.oncall();
-
+                                          Firestore.instance.collection('Categories').document(widget.did).collection('Tasks').document().setData({
+                                            'Heading': heading.text,
+                                            'Description' : textall.text,
+                                          });
+                                          widget.oncall();
+                                          Navigator.pop(context);
                                       },
                                       color: Colors.blue,
+                                      height: 50,
                                       textColor: Colors.white,
                                       child: Icon(
                                         Icons.add,
-                                        size: 12,
+                                        size: 18,
                                       ),
                                       padding: EdgeInsets.all(6),
                                       shape: CircleBorder(),
@@ -121,6 +128,8 @@ class _TaskCardState extends State<TaskCard> {
         ),
       );
     }
+
+
     return Dismissible(
       key: UniqueKey() ,
       direction: (widget.id%2==1)?DismissDirection.startToEnd:DismissDirection.endToStart,
@@ -172,11 +181,11 @@ class _TaskCardState extends State<TaskCard> {
 
         ),
       ),
-      onDismissed: (direction) async {
-        tasklist[widget.tid].delete(widget.id);
+      onDismissed: (direction)  {
+        Firestore.instance.collection('Categories').document(widget.did).collection('Tasks').document(widget.tid).delete();
         widget.oncall();
         Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text("item dismissed")));
+            .showSnackBar(SnackBar(content: Text("Item dismissed")));
       },
     );
   }

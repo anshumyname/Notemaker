@@ -3,11 +3,11 @@ import 'package:notemaker/taskdetails/taskdetails.dart';
 class Tlist {
   String info="Not assigned";
   List<Taske> tasks = [
-    Taske("Task1", "Many work to be done "),
+    Taske("Task1", "Many work to be done ","4"),
     Taske("Task2",
-        "Yes your work has to be done \n Lets do some more work \n What you can do ?"),
-    Taske("Task3", "Oh Yes I did it "),
-    Taske("Task4", "Yet another work to be done"),
+        "Yes your work has to be done \n Lets do some more work \n What you can do ?","4"),
+    Taske("Task3", "Oh Yes I did it ","5"),
+    Taske("Task4", "Yet another work to be done","23"),
   ];
 
   Future<void> addit(Taske t) async{

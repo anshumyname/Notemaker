@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "911031623783",
+    "firebase_url": "https://tasklist-47342.firebaseio.com",
+    "project_id": "tasklist-47342",
+    "storage_bucket": "tasklist-47342.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911031623783:android:0b8c34a9fe53b6cb61b4c2",
+        "android_client_info": {
+          "package_name": "task.notemaker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911031623783-8skb7r6718p5nud254lphq96mf7bhjv3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkFcFbWwkeOHj6G55xk6-WE_Mpb_cUEQI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911031623783-8skb7r6718p5nud254lphq96mf7bhjv3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
