@@ -1,6 +1,6 @@
-# tasklist
+# notemaker
 
-A new Flutter application.
+Task List
 
 ## Getting Started
 

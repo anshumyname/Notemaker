@@ -1,4 +1,4 @@
-import 'package:tasklist/taskdetails/taskdetails.dart';
+import 'package:notemaker/taskdetails/taskdetails.dart';
 
 class Tlist {
   String info="Not assigned";
@@ -9,6 +9,10 @@ class Tlist {
     Taske("Task3", "Oh Yes I did it "),
     Taske("Task4", "Yet another work to be done"),
   ];
+
+  Future<void> addit(Taske t) async{
+    tasks.add(t);
+  }
 
   Future<void> delete(int idx) async{
       tasks.removeAt(idx);

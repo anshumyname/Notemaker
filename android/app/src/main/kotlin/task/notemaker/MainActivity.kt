@@ -1,4 +1,4 @@
-package task.tasklist
+package task.notemaker
 
 import io.flutter.embedding.android.FlutterActivity
 
