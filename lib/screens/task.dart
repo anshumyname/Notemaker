@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:notemaker/database/listoftasks.dart';
-import 'package:notemaker/database/services.dart';
 import 'package:notemaker/screens/taskcard.dart';
-
 import 'package:notemaker/taskdetails/taskdetails.dart';
+
+import 'category.dart';
 
 class Task extends StatefulWidget {
   final DocumentSnapshot ds;
@@ -20,13 +18,19 @@ class _TaskState extends State<Task> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Firestore.instance.collection('Categories').document(widget.ds.documentID).collection('Tasks').snapshots(),
+      stream: Firestore.instance.collection(mainid).document(widget.ds.documentID).collection('Tasks').snapshots(),
       builder: (context, snapshot) {
-        if(!snapshot.hasData) return Text('Loading');
+        if(!snapshot.hasData) return Scaffold(
+          appBar: AppBar(
+            title: Text(widget.ds['Name'],textAlign: TextAlign.center,),
+            backgroundColor: Colors.black,
+          ),
+          backgroundColor: Colors.grey,
+        );
         widget.total= snapshot.data.documents.length;
         return Scaffold(
           appBar: AppBar(
-              title: Text('Todo List',textAlign: TextAlign.center,),
+              title: Text(widget.ds['Name'],textAlign: TextAlign.center,),
             backgroundColor: Colors.black,
           ),
           body: GridView.builder(
@@ -40,7 +44,6 @@ class _TaskState extends State<Task> {
                 bool flag=false;
                 if(index==len) {
                   flag = true;
-                  print('oh yeah');
                 }
                 Taske t;
 
