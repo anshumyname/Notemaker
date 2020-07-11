@@ -6,7 +6,9 @@ individual notes in it with heading and description. Also you can edit the creat
 and when note is no longer needed just slide them to delete.
 
 ## Demo
+Here is a demo of how this application looks
 
+![Demo](https://github.com/anshumyname/ToDoList/blob/master/assets/demp.gif)
 ## Dependecies
 - flutter:
      sdk: flutter
