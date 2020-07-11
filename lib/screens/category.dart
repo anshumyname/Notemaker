@@ -39,7 +39,18 @@ class _CategoryState extends State<Category> {
     return StreamBuilder(
       stream: Firestore.instance.collection(mainid).orderBy('Order').snapshots(),
       builder: (context, snapshot){
-        if(!snapshot.hasData) return Loading();
+        if(!snapshot.hasData) return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            title: Center(
+              child: Text(
+                'NOTES',
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.white),
+              ),
+            ),
+          ),
+          backgroundColor: Colors.grey[400],
+        );
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.black,

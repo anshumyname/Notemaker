@@ -254,7 +254,7 @@ class _TaskCardState extends State<TaskCard> {
         child: Card(
           color: Colors.blue[500],
           margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
-          child: Center(child: Text(widget.head,style: TextStyle(fontSize: 25),)),
+          child: Center(child: Text(widget.head,style: TextStyle(fontSize: 25),),widthFactor: 2,),
 
         ),
       ),
